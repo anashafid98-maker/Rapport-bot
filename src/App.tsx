@@ -4,12 +4,14 @@ import { LoginForm } from './components/Auth/LoginForm';
 import { SignupForm } from './components/Auth/SignupForm';
 import { ReportForm } from './components/Reports/ReportForm';
 import { ReportsList } from './components/Reports/ReportsList';
+import { TestConnection } from './components/TestConnection';
 import { LogOut, FileText, List, Plus, Settings, User, Building2, Shield } from 'lucide-react';
 
 function AppContent() {
   const { user, profile, loading, signOut } = useAuth();
   const [view, setView] = useState<'create' | 'list'>('list');
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
+  const [showTest, setShowTest] = useState(true); // Temporaire - pour debug
 
   if (loading) {
     return (
@@ -67,6 +69,14 @@ function AppContent() {
 
             {/* Navigation and Actions */}
             <div className="flex items-center gap-3">
+              {/* Debug Button - Temporaire */}
+              <button
+                onClick={() => setShowTest(!showTest)}
+                className="flex items-center gap-3 px-4 py-2 bg-gray-600 text-white rounded-xl hover:bg-gray-700 transition-all duration-200 text-sm font-medium"
+              >
+                {showTest ? 'Masquer Test' : 'Afficher Test'}
+              </button>
+
               {/* Create Report Button */}
               <button
                 onClick={() => setView('create')}
@@ -108,6 +118,9 @@ function AppContent() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Test Connection Component - Temporaire pour debug */}
+        {showTest && <TestConnection />}
+
         {view === 'create' ? (
           profile?.zone ? (
             <div className="animate-fade-in">
@@ -154,9 +167,7 @@ function AppContent() {
               <Shield className="w-5 h-5 text-blue-600" />
               <span className="text-sm font-medium">Plateforme Sécurisée • Maintenance Pro v1.0</span>
             </div>
-            <div className="text-sm text-gray-500">
-              © 2024 Maintenance Pro. Tous droits réservés.
-            </div>
+           
           </div>
         </div>
       </footer>
